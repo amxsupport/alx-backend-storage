@@ -39,4 +39,20 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def count_calls(method: Callable) -> Callable:
+    """ Count calls """
+    key = method.__qualname__
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """ Wrapp """
+        self._redis.incr(key)
+        return method(self, *args, **kwargs)
+    return wrapper
+
+
+def decode_utf8(b: bytes) -> str:
+    """ Decodes """
+    return b.decode('utf-8') if type(b) == bytes else b
+
+
 
