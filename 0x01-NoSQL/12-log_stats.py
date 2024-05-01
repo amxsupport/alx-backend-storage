@@ -1,33 +1,35 @@
 #!/usr/bin/env python3
-""" 12. Log stats
 """
+This Module contain a Python script that provides some stats about Nginx logs stored in MongoDB
 
-
+Database: logs
+Collection: nginx
+Display (same as the example):
+first line: x logs where x is the number of documents in this collection
+second line: Methods:
+5 lines with the number of documents with the method = ["GET", "POST", "PUT", "PATCH", "DELETE"] in this order (see example below - warning: it’s a tabulation before each line)
+one line with the number of documents with:
+method=GET
+path=/status
+"""
 from pymongo import MongoClient
 
 
-def log_stats():
-    """ log_stats.
-    """
-    client = MongoClient('mongodb://127.0.0.1:27017')
-    students_collection = client.my_db.students
-    total = students_collection.count_documents({})
-    get = students_collection.count_documents({"method": "GET"})
-    post = students_collection.count_documents({"method": "POST"})
-    put = students_collection.count_documents({"method": "PUT"})
-    patch = students_collection.count_documents({"method": "PATCH"})
-    delete = students_collection.count_documents({"method": "DELETE"})
-    path = students_collection.count_documents(
-        {"method": "GET", "path": "/status"})
-    print(f"{total} logs")
+def log_nginx_stats(mongo_collection):
+    """provides some stats about Nginx logs"""
+    print(f"{mongo_collection.estimated_document_count()} logs")
+
     print("Methods:")
-    print(f"\tmethod GET: {get}")
-    print(f"\tmethod POST: {post}")
-    print(f"\tmethod PUT: {put}")
-    print(f"\tmethod PATCH: {patch}")
-    print(f"\tmethod DELETE: {delete}")
-    print(f"{path} status check")
+    for method in ["GET", "POST", "PUT", "PATCH", "DELETE"]:
+        count = mongo_collection.count_documents({"method": method})
+        print(f"\tmethod {method}: {count}")
+
+    number_of_gets = mongo_collection.count_documents(
+        {"method": "GET", "path": "/status"})
+    print(f"{number_of_gets} status check")
 
 
 if __name__ == "__main__":
-    log_stats()
+    client = MongoClient('mongodb://127.0.0.1:27017')
+    mongo_collection = client.logs.nginx
+    log_nginx_stats(mongo_collection)
