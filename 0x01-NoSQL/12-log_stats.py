@@ -10,14 +10,14 @@ def log_stats():
     """ log_stats.
     """
     client = MongoClient('mongodb://127.0.0.1:27017')
-    logs_collection = client.logs.nginx
-    total = logs_collection.count_documents({})
-    get = logs_collection.count_documents({"method": "GET"})
-    post = logs_collection.count_documents({"method": "POST"})
-    put = logs_collection.count_documents({"method": "PUT"})
-    patch = logs_collection.count_documents({"method": "PATCH"})
-    delete = logs_collection.count_documents({"method": "DELETE"})
-    path = logs_collection.count_documents(
+    students_collection = client.my_db.students
+    total = students_collection.count_documents({})
+    get = students_collection.count_documents({"method": "GET"})
+    post = students_collection.count_documents({"method": "POST"})
+    put = students_collection.count_documents({"method": "PUT"})
+    patch = students_collection.count_documents({"method": "PATCH"})
+    delete = students_collection.count_documents({"method": "DELETE"})
+    path = students_collection.count_documents(
         {"method": "GET", "path": "/status"})
     print(f"{total} logs")
     print("Methods:")
