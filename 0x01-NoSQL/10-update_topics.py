@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-""" 11. Where can I learn Python?
+""" 10. Change school topics
 """
 
 
-def schools_by_topic(mongo_collection, topic):
-    """ schools_by_topic.
+def update_topics(mongo_collection, name, topics):
+    """ update_topics.
     """
-    return mongo_collection.find({"topics": topic})
+    query = {"name": name}
+    new_values = {"$set": {"topics": topics}}
+    mongo_collection.update_many(query, new_values)
