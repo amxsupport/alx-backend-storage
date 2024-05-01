@@ -80,4 +80,10 @@ class Cache:
         return fn(res) if fn else res
 
 
+    def get_str(self, data: bytes) -> str:
+        """ Bytes to string """
+        return data.decode('utf-8')
 
+    def get_int(self, data: bytes) -> int:
+        """ Bytes to integer """
+        return int.from_bytes(data, sys.byteorder)
