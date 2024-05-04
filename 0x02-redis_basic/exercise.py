@@ -29,9 +29,8 @@ def call_history(method: Callable) -> Callable:
     key = method.__qualname__
     i = "".join([key, ":inputs"])
     o = "".join([key, ":outputs"])
-    @wraps(method)
-
-
+    
+@wraps(method)
 def wrapper(self, *args, **kwargs):
         """ Wrapp """
         self._redis.rpush(i, str(args))
@@ -44,8 +43,9 @@ def wrapper(self, *args, **kwargs):
 def count_calls(method: Callable) -> Callable:
     """ Count calls """
     key = method.__qualname__
-    @wraps(method)
-    def wrapper(self, *args, **kwargs):
+    
+@wraps(method)
+def wrapper(self, *args, **kwargs):
         """ Wrapp """
         self._redis.incr(key)
         return method(self, *args, **kwargs)
