@@ -23,19 +23,23 @@ def replay(method: Callable):
         v = decode_utf8(v)
         print(f"{key}(*{k}) -> {v}")
 
+
 def call_history(method: Callable) -> Callable:
     """ Call history. """
     key = method.__qualname__
     i = "".join([key, ":inputs"])
     o = "".join([key, ":outputs"])
     @wraps(method)
-    def wrapper(self, *args, **kwargs):
+
+
+def wrapper(self, *args, **kwargs):
         """ Wrapp """
         self._redis.rpush(i, str(args))
         res = method(self, *args, **kwargs)
         self._redis.rpush(o, str(res))
         return res
     return wrapper
+
 
 def count_calls(method: Callable) -> Callable:
     """ Count calls """
@@ -47,9 +51,11 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
+
 def decode_utf8(b: bytes) -> str:
     """ Decodes """
     return b.decode('utf-8') if type(b) == bytes else b
+
 
 class Cache:
     """ Cache class. """
@@ -61,6 +67,7 @@ class Cache:
 
     @count_calls
     @call_history
+
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """ Random to store """
         key = str(uuid4())
