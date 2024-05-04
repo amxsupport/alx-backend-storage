@@ -23,7 +23,6 @@ def replay(method: Callable):
         v = decode_utf8(v)
         print(f"{key}(*{k}) -> {v}")
 
-
 def call_history(method: Callable) -> Callable:
     """ Call history. """
     key = method.__qualname__
@@ -38,7 +37,6 @@ def call_history(method: Callable) -> Callable:
         return res
     return wrapper
 
-
 def count_calls(method: Callable) -> Callable:
     """ Count calls """
     key = method.__qualname__
@@ -49,11 +47,9 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
-
 def decode_utf8(b: bytes) -> str:
     """ Decodes """
     return b.decode('utf-8') if type(b) == bytes else b
-
 
 class Cache:
     """ Cache class. """
@@ -78,7 +74,6 @@ class Cache:
         """ Gets  """
         res = self._redis.get(key)
         return fn(res) if fn else res
-
 
     def get_str(self, data: bytes) -> str:
         """ Bytes to string """
