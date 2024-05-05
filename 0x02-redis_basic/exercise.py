@@ -30,6 +30,7 @@ def call_history(method: Callable) -> Callable:
     i = "".join([key, ":inputs"])
     o = "".join([key, ":outputs"])
 
+
 @wraps(method)
 def wrapper(self, *args, **kwargs):
         """ Wrapp """
