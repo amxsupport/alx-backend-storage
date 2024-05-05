@@ -48,10 +48,10 @@ def count_calls(method: Callable) -> Callable:
 
 @wraps(method)
 def wrapper(self, *args, **kwargs):
-        """ Wrapp """
-        self._redis.incr(key)
-        return method(self, *args, **kwargs)
-    return wrapper
+    """ Wrapp """
+    self._redis.incr(key)
+    return method(self, *args, **kwargs)
+return wrapper
 
 
 def decode_utf8(b: bytes) -> str:
