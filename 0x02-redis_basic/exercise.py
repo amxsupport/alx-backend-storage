@@ -44,7 +44,8 @@ def wrapper(self, *args, **kwargs):
 def count_calls(method: Callable) -> Callable:
     """ Count calls """
     key = method.__qualname__
-    
+
+
 @wraps(method)
 def wrapper(self, *args, **kwargs):
         """ Wrapp """
